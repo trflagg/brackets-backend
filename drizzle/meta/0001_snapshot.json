@@ -1,0 +1,95 @@
+{
+  "id": "1cde4fd7-8253-4184-a849-311b6b3f9055",
+  "prevId": "55b1169c-0b41-45ac-91d8-2a228cf612ad",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.bracket": {
+      "name": "bracket",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.entrant": {
+      "name": "entrant",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "seed": {
+          "name": "seed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bracket": {
+          "name": "bracket",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "entrant_bracket_bracket_id_fk": {
+          "name": "entrant_bracket_bracket_id_fk",
+          "tableFrom": "entrant",
+          "tableTo": "bracket",
+          "columnsFrom": [
+            "bracket"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "seed_per_bracket": {
+          "name": "seed_per_bracket",
+          "nullsNotDistinct": false,
+          "columns": [
+            "seed",
+            "bracket"
+          ]
+        }
+      }
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
