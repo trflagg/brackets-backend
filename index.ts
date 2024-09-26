@@ -1,8 +1,11 @@
 import express from "express";
+import bodyParser from "body-parser";
+
 import { db } from "./src/db";
 import { bracket } from "./src/schema";
 import { eq } from "drizzle-orm";
 const app = express();
+app.use(bodyParser.json());
 const port = 3000;
 
 app.get("/brackets", async (req, res) => {
@@ -13,10 +16,10 @@ app.get("/brackets", async (req, res) => {
 app.get("/bracket/:id", async (req, res) => {
   const { id } = req.params;
   if (!id) {
-    return res.send(400);
+    return res.sendStatus(400);
   }
   if (isNaN(+id)) {
-    return res.send(400);
+    return res.sendStatus(400);
   }
   const result = await db
     .select({
@@ -29,10 +32,11 @@ app.get("/bracket/:id", async (req, res) => {
 });
 
 app.post("/bracket", async (req, res) => {
-  const result = await db
-    .insert(bracket)
-    .values({ name: "New bracket" })
-    .returning();
+  const { name } = req.body;
+  if (!name) {
+    return res.sendStatus(400);
+  }
+  const result = await db.insert(bracket).values({ name }).returning();
   res.json({ id: result[0].id });
 });
 
