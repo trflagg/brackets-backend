@@ -5,6 +5,8 @@ export const bracket = pgTable("bracket", {
   name: varchar("name"),
 });
 
+export type Bracket = typeof bracket.$inferSelect;
+
 export const entrant = pgTable(
   "entrant",
   {
@@ -19,3 +21,5 @@ export const entrant = pgTable(
     seed_per_bracket: unique("seed_per_bracket").on(t.seed, t.bracket),
   }),
 );
+
+export type Entrant = typeof entrant.$inferSelect;

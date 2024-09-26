@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 
 import { db } from "./src/db";
-import { bracket, entrant } from "./src/schema";
+import { bracket, Entrant, entrant } from "./src/schema";
 import { eq } from "drizzle-orm";
 const app = express();
 app.use(bodyParser.json());
@@ -25,10 +25,29 @@ app.get("/bracket/:id", async (req, res) => {
     .select({
       id: bracket.id,
       name: bracket.name,
+      entrants: {
+        id: entrant.id,
+        name: entrant.name,
+        seed: entrant.seed,
+        bracket: entrant.bracket,
+      },
     })
     .from(bracket)
-    .where(eq(bracket.id, new Number(id) as number));
-  res.json({ result });
+    .where(eq(bracket.id, new Number(id) as number))
+    .fullJoin(entrant, eq(bracket.id, entrant.bracket));
+
+  if (result.length < 1) {
+    return [];
+  }
+
+  const aggregatedResult = {
+    id: result?.[0]?.id,
+    name: result?.[0]?.name,
+    entrants: [] as (Entrant | null)[],
+  };
+  aggregatedResult.entrants = result.map((r) => r.entrants);
+
+  res.json({ result: aggregatedResult });
 });
 
 app.post("/bracket", async (req, res) => {
