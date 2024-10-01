@@ -22,6 +22,20 @@
       "when": 1727754673475,
       "tag": "0002_complex_christian_walker",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1727755571125,
+      "tag": "0003_certain_johnny_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1727755696125,
+      "tag": "0004_handy_the_stranger",
+      "breakpoints": true
     }
   ]
 }

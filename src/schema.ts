@@ -7,9 +7,17 @@ import {
   pgEnum,
 } from "drizzle-orm/pg-core";
 
+export const bracketStatus = pgEnum("bracketStatus", [
+  "not started",
+  "in progress",
+  "paused",
+  "complete",
+]);
+
 export const bracket = pgTable("bracket", {
   id: serial("id").primaryKey(),
   name: varchar("name"),
+  status: bracketStatus("status").notNull().default("not started"),
 });
 
 export type Bracket = typeof bracket.$inferSelect;

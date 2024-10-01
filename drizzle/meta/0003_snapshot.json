@@ -1,0 +1,220 @@
+{
+  "id": "1968a8ba-2143-4129-9b31-f6933af13017",
+  "prevId": "f821b1d6-b6ee-4a28-92a4-f2de5db6787d",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.bracket": {
+      "name": "bracket",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "bracketStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.entrant": {
+      "name": "entrant",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "seed": {
+          "name": "seed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bracket": {
+          "name": "bracket",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "entrant_bracket_bracket_id_fk": {
+          "name": "entrant_bracket_bracket_id_fk",
+          "tableFrom": "entrant",
+          "tableTo": "bracket",
+          "columnsFrom": [
+            "bracket"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "seed_per_bracket": {
+          "name": "seed_per_bracket",
+          "nullsNotDistinct": false,
+          "columns": [
+            "seed",
+            "bracket"
+          ]
+        }
+      }
+    },
+    "public.match": {
+      "name": "match",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "number": {
+          "name": "number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bracket": {
+          "name": "bracket",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "topEntrant": {
+          "name": "topEntrant",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bottomEntrant": {
+          "name": "bottomEntrant",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "topScore": {
+          "name": "topScore",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bottomScore": {
+          "name": "bottomScore",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "winner": {
+          "name": "winner",
+          "type": "winningSide",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "match_bracket_bracket_id_fk": {
+          "name": "match_bracket_bracket_id_fk",
+          "tableFrom": "match",
+          "tableTo": "bracket",
+          "columnsFrom": [
+            "bracket"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "match_topEntrant_entrant_id_fk": {
+          "name": "match_topEntrant_entrant_id_fk",
+          "tableFrom": "match",
+          "tableTo": "entrant",
+          "columnsFrom": [
+            "topEntrant"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "match_bottomEntrant_entrant_id_fk": {
+          "name": "match_bottomEntrant_entrant_id_fk",
+          "tableFrom": "match",
+          "tableTo": "entrant",
+          "columnsFrom": [
+            "bottomEntrant"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "public.bracketStatus": {
+      "name": "bracketStatus",
+      "schema": "public",
+      "values": [
+        "not started",
+        "in progress",
+        "paused",
+        "complete"
+      ]
+    },
+    "public.winningSide": {
+      "name": "winningSide",
+      "schema": "public",
+      "values": [
+        "top",
+        "bottom"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
