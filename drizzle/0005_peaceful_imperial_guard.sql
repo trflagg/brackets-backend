@@ -1,0 +1,1 @@
+ALTER TABLE "bracket" ADD COLUMN "size" integer NOT NULL;

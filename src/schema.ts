@@ -18,6 +18,7 @@ export const bracket = pgTable("bracket", {
   id: serial("id").primaryKey(),
   name: varchar("name"),
   status: bracketStatus("status").notNull().default("not started"),
+  size: integer("size").notNull(),
 });
 
 export type Bracket = typeof bracket.$inferSelect;

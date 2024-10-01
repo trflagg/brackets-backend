@@ -36,6 +36,13 @@
       "when": 1727755696125,
       "tag": "0004_handy_the_stranger",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1727756101503,
+      "tag": "0005_peaceful_imperial_guard",
+      "breakpoints": true
     }
   ]
 }

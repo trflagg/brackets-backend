@@ -51,11 +51,11 @@ app.get("/bracket/:id", async (req, res) => {
 });
 
 app.post("/bracket", async (req, res) => {
-  const { name } = req.body;
-  if (!name) {
+  const { name, size } = req.body;
+  if (!name || !size) {
     return res.sendStatus(400);
   }
-  const result = await db.insert(bracket).values({ name }).returning();
+  const result = await db.insert(bracket).values({ name, size }).returning();
   res.json({ id: result[0].id });
 });
 
