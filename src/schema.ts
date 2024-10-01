@@ -1,4 +1,11 @@
-import { serial, varchar, integer, unique, pgTable } from "drizzle-orm/pg-core";
+import {
+  serial,
+  varchar,
+  integer,
+  unique,
+  pgTable,
+  pgEnum,
+} from "drizzle-orm/pg-core";
 
 export const bracket = pgTable("bracket", {
   id: serial("id").primaryKey(),
@@ -23,3 +30,20 @@ export const entrant = pgTable(
 );
 
 export type Entrant = typeof entrant.$inferSelect;
+
+export const winningSide = pgEnum("winningSide", ["top", "bottom"]);
+
+export const match = pgTable("match", {
+  id: serial("id").primaryKey(),
+  number: integer("number").notNull(),
+  bracket: integer("bracket")
+    .notNull()
+    .references(() => bracket.id),
+  topEntrant: integer("topEntrant").references(() => entrant.id),
+  bottomEntrant: integer("bottomEntrant").references(() => entrant.id),
+  topScore: integer("topScore"),
+  bottomScore: integer("bottomScore"),
+  winner: winningSide("winner"),
+});
+
+export type Match = typeof entrant.$inferSelect;
