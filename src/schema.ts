@@ -42,17 +42,23 @@ export type Entrant = typeof entrant.$inferSelect;
 
 export const winningSide = pgEnum("winningSide", ["top", "bottom"]);
 
-export const match = pgTable("match", {
-  id: serial("id").primaryKey(),
-  number: integer("number").notNull(),
-  bracket: integer("bracket")
-    .notNull()
-    .references(() => bracket.id),
-  topEntrant: integer("topEntrant").references(() => entrant.id),
-  bottomEntrant: integer("bottomEntrant").references(() => entrant.id),
-  topScore: integer("topScore"),
-  bottomScore: integer("bottomScore"),
-  winner: winningSide("winner"),
-});
+export const match = pgTable(
+  "match",
+  {
+    id: serial("id").primaryKey(),
+    number: integer("number").notNull(),
+    bracket: integer("bracket")
+      .notNull()
+      .references(() => bracket.id),
+    topEntrant: integer("topEntrant").references(() => entrant.id),
+    bottomEntrant: integer("bottomEntrant").references(() => entrant.id),
+    topScore: integer("topScore"),
+    bottomScore: integer("bottomScore"),
+    winner: winningSide("winner"),
+  },
+  (t) => ({
+    number_per_bracket: unique("number_per_bracket").on(t.number, t.bracket),
+  }),
+);
 
 export type Match = typeof entrant.$inferSelect;
