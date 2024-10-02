@@ -138,20 +138,20 @@ bracketRoutes.post("/:id/start", async (req, res) => {
   // bottomPointer starts at high seed and moves down
   let topPointer = 0;
   let bottomPointer = entrants.length - 1;
-  for (let i = 1; i < newSize - 1; i++) {
-    if (
-      entrants[topPointer]?.id &&
-      entrants[bottomPointer]?.id &&
-      foundBracket?.id
-    ) {
+  for (let i = 1; i <= newSize - 1; i++) {
+    if (foundBracket?.id) {
+      let topEntrantId = null;
+      let bottomEntrantId = null;
+      // only set entrants for first newSize / 2 matches
+      if (topPointer < bottomPointer) {
+        topEntrantId = entrants[topPointer]?.id;
+        bottomEntrantId = entrants[bottomPointer]?.id;
+      }
       await db.insert(match).values({
         number: i,
         bracket: foundBracket.id,
-        // only set entrants for first newSize / 2 matches
-        topEntrant:
-          topPointer < bottomPointer ? entrants[topPointer]?.id : null,
-        bottomEntrant:
-          topPointer < bottomPointer ? entrants[bottomPointer]?.id : null,
+        topEntrant: topEntrantId,
+        bottomEntrant: bottomEntrantId,
       });
     }
     topPointer++;
